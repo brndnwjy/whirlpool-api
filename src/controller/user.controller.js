@@ -3,13 +3,22 @@ const { hash, compare } = require("bcryptjs");
 const createError = require("http-errors");
 
 const userModel = require("../model/user.model");
+const generateToken = require("../helper/auth.helper");
+const response = require("../helper/response.helper");
 
 const userController = {
   // auth
   register: async (req, res, next) => {
     try {
-      const id = uuid();
       const { fullname, email, phone, password } = req.body;
+
+      const { rowCount: check } = await userModel.checkMail(email);
+
+      if (check) {
+        return next(createError(404, "email already registerd"));
+      }
+
+      const id = uuid();
       const hashedPassword = await hash(password, 10);
       const date = new Date();
 
@@ -26,10 +35,7 @@ const userController = {
 
       delete data.password;
 
-      res.json({
-        msg: "register berhasil",
-        data: data,
-      });
+      response(res, data, 200, "register berhasil");
     } catch (error) {
       console.log(error);
     }
@@ -63,10 +69,9 @@ const userController = {
         phone: user.phone,
       };
 
-      res.json({
-        msg: "login berhasil",
-        data: user,
-      });
+      user.token = generateToken(payload);
+
+      response(res, user, 200, "login berhasil");
     } catch (error) {
       console.log(error);
     }
@@ -76,10 +81,8 @@ const userController = {
   getUser: async (req, res, next) => {
     try {
       const user = await userModel.getUser();
-      res.json({
-        msg: "get user berhasil",
-        data: user.rows,
-      });
+
+      response(res, user.rows, 200, "get user berhasil");
     } catch (error) {
       console.log(error);
     }
