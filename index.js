@@ -31,6 +31,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/v1", main);
 
+app.use("/ava", express.static(path.join(__dirname, "/upload")));
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {

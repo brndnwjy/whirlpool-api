@@ -12,11 +12,39 @@ const userModel = {
   },
 
   checkMail: (email) => {
-    return pool.query(`SELECT * FROM users WHERE email = $1`, [email])
+    return pool.query(`SELECT * FROM users WHERE email = $1`, [email]);
   },
 
   getUser: () => {
     return pool.query("SELECT * FROM users");
+  },
+
+  getUserDetail: (id) => {
+    return pool.query(`SELECT * FROM users WHERE user_id = $1`, [id]);
+  },
+
+  updateUser: (data) => {
+    return pool.query(
+      `
+    UPDATE users SET 
+    fullname = COALESCE($1, fullname),
+    username = COALESCE($2, username),
+    phone = COALESCE($3, phone),
+    bio = COALESCE($4, bio),
+    avatar  = COALESCE($5, avatar),
+    updated_at = COALESCE($6, updated_at)
+    WHERE user_id = $7
+    `,
+      [
+        data.fullname,
+        data.username,
+        data.phone,
+        data.bio,
+        data.avatar,
+        data.date,
+        data.id,
+      ]
+    );
   },
 };
 

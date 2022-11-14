@@ -1,7 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { register, getUser, login } = require("../controller/user.controller");
+const {
+  register,
+  getUser,
+  login,
+  getUserDetail,
+  updateUser,
+} = require("../controller/user.controller");
+const avatarUpload = require("../middleware/multer.middleware");
 
 router
   // auth
@@ -9,8 +16,9 @@ router
   .post("/login", login)
 
   // crud
-  .get("/", getUser);
-//   .put("/", userController)
+  .get("/", getUser)
+  .get("/:id", getUserDetail)
+  .put("/:id", avatarUpload.single("avatar"), updateUser);
 //   .delete("/", userController);
 
 module.exports = router;

@@ -87,6 +87,52 @@ const userController = {
       console.log(error);
     }
   },
+
+  getUserDetail: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const {
+        rows: [user],
+      } = await userModel.getUserDetail(id);
+
+      response(res, user, 200, "get user detail berhasil");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  updateUser: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { fullname, username, phone, bio } = req.body;
+      const date = new Date();
+      let avatar = null;
+
+      if (req.file) {
+        avatar = `http://${req.get("host")}/ava/${req.file.filename}`;
+      }
+
+      const data = {
+        id,
+        fullname,
+        username,
+        phone,
+        bio,
+        avatar,
+        date,
+      };
+
+      console.log(data);
+
+      await userModel.updateUser(data);
+
+      const user = await userModel.getUserDetail(id);
+
+      response(res, user, 200, "update user berhasil");
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 module.exports = userController;
