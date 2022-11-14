@@ -133,6 +133,22 @@ const userController = {
       console.log(error);
     }
   },
+
+  deleteUser: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const {
+        rows: [user],
+      } = await userModel.getUserDetail(id);
+      delete user.password;
+
+      await userModel.deleteUser(id);
+
+      response(res, user, 200, "delete user berhasil");
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 module.exports = userController;

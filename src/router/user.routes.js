@@ -7,6 +7,7 @@ const {
   login,
   getUserDetail,
   updateUser,
+  deleteUser,
 } = require("../controller/user.controller");
 const avatarUpload = require("../middleware/multer.middleware");
 
@@ -18,7 +19,7 @@ router
   // crud
   .get("/", getUser)
   .get("/:id", getUserDetail)
-  .put("/:id", avatarUpload.single("avatar"), updateUser);
-//   .delete("/", userController);
+  .put("/:id", avatarUpload.single("avatar"), updateUser)
+  .delete("/:id", deleteUser);
 
 module.exports = router;

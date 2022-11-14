@@ -46,6 +46,10 @@ const userModel = {
       ]
     );
   },
+
+  deleteUser: (id) => {
+    return pool.query(`DELETE FROM users WHERE user_id = $1`, [id]);
+  },
 };
 
 module.exports = userModel;
