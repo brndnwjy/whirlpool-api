@@ -85,17 +85,17 @@ io.on("connection", (socket) => {
       receiver: data.receiver,
       message: data.msg,
       sender: socket.userId,
-      // date: moment(new Date()).format("LT"),
-      date: `${new Date().getHours()}:${new Date().getMinutes()}` ,
+      date: moment(new Date()).format("LT"),
+      // date: `${new Date().getHours()}:${new Date().getMinutes()}` ,
     };
 
-    // console.log(newMessage)
+    console.log(newMessage)
 
     callback(newMessage);
 
     chatModel.newChat(newMessage)
     .then(() => {
-      socket.broadcast.to(data.receiver).emit("private-msg-BE", newMessage)
+      socket.broadcast.to(data.receiver).emit("private-msg-BE", {...newMessage, date : new Date()})
     })
     
     // io.to(data.receiver).emit("private-msg-BE", {

@@ -71,9 +71,21 @@ const userController = {
 
       user.token = generateToken(payload);
 
+      await userModel.goOnline(user.user_id)
+
       response(res, user, 200, "login berhasil");
     } catch (error) {
       console.log(error);
+    }
+  },
+
+  logout: async(req, res, next) => {
+    try {
+      const {id} = req.params
+      await userModel.goOffline(id)
+      response(res, null, 200, "logout berhasil");
+    } catch (error) {
+      console.log(error)
     }
   },
 

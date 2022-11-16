@@ -15,6 +15,14 @@ const userModel = {
     return pool.query(`SELECT * FROM users WHERE email = $1`, [email]);
   },
 
+  goOnline: (id) => {
+    return pool.query(`UPDATE users SET status = 1 WHERE user_id = $1`, [id])
+  },
+
+  goOffline: (id) => {
+    return pool.query(`UPDATE users SET status = 0 WHERE user_id = $1`, [id])
+  },
+
   getUser: (id) => {
     return pool.query("SELECT * FROM users WHERE user_id <> $1", [id]);
   },
