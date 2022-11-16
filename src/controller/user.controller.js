@@ -80,7 +80,9 @@ const userController = {
   // crud
   getUser: async (req, res, next) => {
     try {
-      const user = await userModel.getUser();
+      const {id} = req.decoded;
+      console.log(id)
+      const user = await userModel.getUser(id);
 
       response(res, user.rows, 200, "get user berhasil");
     } catch (error) {

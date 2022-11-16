@@ -4,6 +4,7 @@ const createError = require("http-errors");
 const jwtAuth = (req, res, next) => {
   try {
     if (req.headers.authorization) {
+      // console.log(req.headers)
       const token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.SECRET_KEY_JWT);
 

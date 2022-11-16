@@ -15,8 +15,8 @@ const userModel = {
     return pool.query(`SELECT * FROM users WHERE email = $1`, [email]);
   },
 
-  getUser: () => {
-    return pool.query("SELECT * FROM users");
+  getUser: (id) => {
+    return pool.query("SELECT * FROM users WHERE user_id <> $1", [id]);
   },
 
   getUserDetail: (id) => {

@@ -9,6 +9,7 @@ const {
   updateUser,
   deleteUser,
 } = require("../controller/user.controller");
+const jwtAuth = require("../middleware/auth.middleware");
 const avatarUpload = require("../middleware/multer.middleware");
 
 router
@@ -17,7 +18,7 @@ router
   .post("/login", login)
 
   // crud
-  .get("/", getUser)
+  .get("/", jwtAuth, getUser)
   .get("/:id", getUserDetail)
   .put("/:id", avatarUpload.single("avatar"), updateUser)
   .delete("/:id", deleteUser);

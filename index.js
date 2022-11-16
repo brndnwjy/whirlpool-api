@@ -13,6 +13,8 @@ const path = require("path");
 const moment = require("moment");
 moment.locale("id");
 
+const chatModel = require("./src/model/chat.model")
+
 const main = require("./src/router/index.routes");
 
 const app = express();
@@ -64,31 +66,38 @@ io.use((socket, next) => {
         next(createError(400, "error occured"));
       }
     }
-    socket.userId = decoded.id;
+      socket.userId = decoded.id;
     socket.join(decoded.id);
     next();
   });
 });
 
 io.on("connection", (socket) => {
-  console.log(`device connected : ${socket.id}`);
+  console.log(`device connected : ${socket.id} - ${socket.userId}`);
 
-  socket.on("message", (data) => {
-    socket.emit("messageBE", { message: data, date: new Date() });
-  });
+  // socket.on("message", (data) => {
+  //   socket.emit("messageBE", { message: data, date: new Date() });
+  // });
 
   socket.on("private-msg", (data, callback) => {
-    console.log(data);
-    const message = {
+    // console.log(data);
+    const newMessage = {
       receiver: data.receiver,
       message: data.msg,
       sender: socket.userId,
-      date: moment(new Date()).format("LT"),
+      // date: moment(new Date()).format("LT"),
+      date: `${new Date().getHours()}:${new Date().getMinutes()}` ,
     };
 
-    callback({
-      ...message,
-    });
+    // console.log(newMessage)
+
+    callback(newMessage);
+
+    chatModel.newChat(newMessage)
+    .then(() => {
+      socket.broadcast.to(data.receiver).emit("private-msg-BE", newMessage)
+    })
+    
     // io.to(data.receiver).emit("private-msg-BE", {
     //   sender: data.sender,
     //   message: data.msg,
