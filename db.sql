@@ -13,3 +13,11 @@ CREATE TABLE users (
     created_at TIMESTAMP,
     updated_at TIMESTAMP   
 );
+
+CREATE TABLE messages (
+    message_id INTEGER PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY,
+    sender VARCHAR NOT NULL,
+    receiver VARCHAR NOT NULL,
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
