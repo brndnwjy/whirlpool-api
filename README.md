@@ -54,7 +54,7 @@ This is an example of how to list things you need to use the software and how to
 * [Node.js](https://nodejs.org/en/download/)
 * [Express.js](https://expressjs.com/en/starter/installing.html)
 * [PostgreSQL](https://www.postgresql.org/download/)
-- [Socket.io](https://socket.io/docs/v4/server-api/)
+* [Socket.io](https://socket.io/docs/v4/server-api/)
 
 ### Installation
 
