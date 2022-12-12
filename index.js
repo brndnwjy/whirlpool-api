@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/v1", main);
-app.use("/ava", express.static(path.join(__dirname, "/upload")));
+// app.use("/ava", express.static(path.join(__dirname, "/upload")));
 
 app.all("*", (req, res, next) => {
   next(new createError.NotFound());
@@ -50,7 +50,8 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: `https://whirlpool-app.vercel.app/`,
+    // origin: `https://whirlpool-app.vercel.app/`,
+    origin: `https://whirlpool-chat.netlify.app/`,
   },
 });
 
