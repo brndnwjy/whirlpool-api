@@ -20,18 +20,7 @@ const main = require("./src/router/index.routes");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(
-  cors({
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true,
-    optionsSuccessStatus: 204,
-    credentials: true,
-    origin: [
-      "https://whirlpool-chat.netlify.app/",
-      "https://whirlpool-app.vercel.app/",
-    ],
-  })
-);
+app.use(cors());
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
@@ -61,16 +50,12 @@ app.use((err, req, res, next) => {
 
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: {
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true,
-    optionsSuccessStatus: 204,
-    credentials: true,
-    origin: [
-      "https://whirlpool-chat.netlify.app/",
-      "https://whirlpool-app.vercel.app/",
-    ],
-  },
+  origin: [
+    "https://whirlpool-chat.netlify.app/",
+    "https://whirlpool-app.vercel.app/",
+    "http://localhost:3000",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
 });
 
 io.use((socket, next) => {
