@@ -48,7 +48,7 @@ const userModel = {
         data.username,
         data.phone,
         data.bio,
-        data.avatar,
+        data.file,
         data.date,
         data.id,
       ]

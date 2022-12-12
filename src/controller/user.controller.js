@@ -5,6 +5,7 @@ const createError = require("http-errors");
 const userModel = require("../model/user.model");
 const generateToken = require("../helper/auth.helper");
 const response = require("../helper/response.helper");
+const cloudinary = require("../helper/cloudinary");
 
 const userController = {
   // auth
@@ -36,8 +37,9 @@ const userController = {
       delete data.password;
 
       response(res, data, 200, "register berhasil");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      next(new createError.InternalServerError());
     }
   },
 
@@ -71,34 +73,37 @@ const userController = {
 
       user.token = generateToken(payload);
 
-      await userModel.goOnline(user.user_id)
+      await userModel.goOnline(user.user_id);
 
       response(res, user, 200, "login berhasil");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      next(new createError.InternalServerError());
     }
   },
 
-  logout: async(req, res, next) => {
+  logout: async (req, res, next) => {
     try {
-      const {id} = req.params
-      await userModel.goOffline(id)
+      const { id } = req.params;
+      await userModel.goOffline(id);
       response(res, null, 200, "logout berhasil");
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err);
+      next(new createError.InternalServerError());
     }
   },
 
   // crud
   getUser: async (req, res, next) => {
     try {
-      const {id} = req.decoded;
-      console.log(id)
+      const { id } = req.decoded;
+      console.log(id);
       const user = await userModel.getUser(id);
 
       response(res, user.rows, 200, "get user berhasil");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      next(new createError.InternalServerError());
     }
   },
 
@@ -110,8 +115,9 @@ const userController = {
       } = await userModel.getUserDetail(id);
 
       response(res, user, 200, "get user detail berhasil");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      next(new createError.InternalServerError());
     }
   },
 
@@ -123,7 +129,7 @@ const userController = {
       let avatar = null;
 
       if (req.file) {
-        avatar = `http://${req.get("host")}/ava/${req.file.filename}`;
+        avatar = await cloudinary.uploader.upload(req.file.path);
       }
 
       const data = {
@@ -132,7 +138,7 @@ const userController = {
         username,
         phone,
         bio,
-        avatar,
+        file : avatar.url,
         date,
       };
 
@@ -143,8 +149,9 @@ const userController = {
       const user = await userModel.getUserDetail(id);
 
       response(res, user, 200, "update user berhasil");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      next(new createError.InternalServerError());
     }
   },
 
@@ -159,8 +166,9 @@ const userController = {
       await userModel.deleteUser(id);
 
       response(res, user, 200, "delete user berhasil");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      next(new createError.InternalServerError());
     }
   },
 };
