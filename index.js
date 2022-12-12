@@ -20,6 +20,12 @@ const main = require("./src/router/index.routes");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 app.use(cors());
 app.use(
   helmet({
@@ -50,12 +56,14 @@ app.use((err, req, res, next) => {
 
 const server = http.createServer(app);
 const io = new Server(server, {
-  origin: [
-    "https://whirlpool-chat.netlify.app/",
-    "https://whirlpool-app.vercel.app/",
-    "http://localhost:3000",
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  cors: {
+    origin: [
+      "https://whirlpool-chat.netlify.app/",
+      "https://whirlpool-app.vercel.app/",
+      "http://localhost:3000",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  },
 });
 
 io.use((socket, next) => {
