@@ -13,18 +13,29 @@ const path = require("path");
 const moment = require("moment");
 moment.locale("id");
 
-const chatModel = require("./src/model/chat.model")
+const chatModel = require("./src/model/chat.model");
 
 const main = require("./src/router/index.routes");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors());
+app.use(
+  cors({
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: true,
+    optionsSuccessStatus: 204,
+    credentials: true,
+    origin: [
+      "https://whirlpool-chat.netlify.app/",
+      "https://whirlpool-app.vercel.app/",
+    ],
+  })
+);
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
-    crossOriginEmbedderPolicy: false
+    crossOriginEmbedderPolicy: false,
   })
 );
 app.use(xss());
@@ -51,8 +62,14 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["https://whirlpool-chat.netlify.app/", "https://whirlpool-app.vercel.app/"],
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: true,
+    optionsSuccessStatus: 204,
+    credentials: true,
+    origin: [
+      "https://whirlpool-chat.netlify.app/",
+      "https://whirlpool-app.vercel.app/",
+    ],
   },
 });
 
@@ -68,7 +85,7 @@ io.use((socket, next) => {
         next(createError(400, "error occured"));
       }
     }
-      socket.userId = decoded.id;
+    socket.userId = decoded.id;
     socket.join(decoded.id);
     next();
   });
@@ -91,15 +108,16 @@ io.on("connection", (socket) => {
       // date: `${new Date().getHours()}:${new Date().getMinutes()}` ,
     };
 
-    console.log(newMessage)
+    console.log(newMessage);
 
     callback(newMessage);
 
-    chatModel.newChat(newMessage)
-    .then(() => {
-      socket.broadcast.to(data.receiver).emit("private-msg-BE", {...newMessage, date : new Date()})
-    })
-    
+    chatModel.newChat(newMessage).then(() => {
+      socket.broadcast
+        .to(data.receiver)
+        .emit("private-msg-BE", { ...newMessage, date: new Date() });
+    });
+
     // io.to(data.receiver).emit("private-msg-BE", {
     //   sender: data.sender,
     //   message: data.msg,
