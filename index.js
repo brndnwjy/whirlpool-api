@@ -51,8 +51,7 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    // origin: `https://whirlpool-app.vercel.app/`,
-    origin: `https://whirlpool-chat.netlify.app/`,
+    origin: ["https://whirlpool-chat.netlify.app/", "https://whirlpool-app.vercel.app/"],
     methods: ['GET', 'POST', 'PUT', 'DELETE']
   },
 });
