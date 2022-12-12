@@ -24,6 +24,7 @@ app.use(cors());
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
+    crossOriginEmbedderPolicy: false
   })
 );
 app.use(xss());
@@ -52,6 +53,7 @@ const io = new Server(server, {
   cors: {
     // origin: `https://whirlpool-app.vercel.app/`,
     origin: `https://whirlpool-chat.netlify.app/`,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
   },
 });
 
