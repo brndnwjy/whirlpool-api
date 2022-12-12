@@ -20,11 +20,11 @@ const main = require("./src/router/index.routes");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://whirlpool.up.railway.app");
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
-});
+  });
 
 app.use(cors());
 app.use(
