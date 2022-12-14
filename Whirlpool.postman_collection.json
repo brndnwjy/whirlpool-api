@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "743d3c5b-1da3-4445-9da6-d5c554c4dcd0",
+		"name": "Whirlpool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullname\": \"Iqbal\",\r\n    \"email\": \"iqbal@mail.com\",\r\n    \"phone\": \"081234567890\",\r\n    \"password\": \"iqbal123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://whirlpool.up.railway.app//v1/user/register",
+							"protocol": "https",
+							"host": [
+								"whirlpool",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"",
+								"v1",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"brandon@mail.com\",\r\n    \"password\": \"brandon123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://whirlpool.up.railway.app//v1/user/login",
+							"protocol": "https",
+							"host": [
+								"whirlpool",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"",
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://whirlpool.up.railway.app//v1/user",
+							"protocol": "https",
+							"host": [
+								"whirlpool",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://whirlpool.up.railway.app/v1/user/274343f6-3ff3-42ac-995a-8ad049c753e5",
+							"protocol": "https",
+							"host": [
+								"whirlpool",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"v1",
+								"user",
+								"274343f6-3ff3-42ac-995a-8ad049c753e5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fullname",
+									"value": "Brandon Wijaya",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "brndnwjy",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "08123456789",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "bio",
+									"value": "Busy",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/brndnwjy/Downloads/074590800_1667362695-Kendall_Jenner.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://whirlpool.up.railway.app//v1/user/274343f6-3ff3-42ac-995a-8ad049c753e5",
+							"protocol": "https",
+							"host": [
+								"whirlpool",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"",
+								"v1",
+								"user",
+								"274343f6-3ff3-42ac-995a-8ad049c753e5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://whirlpool.up.railway.app//v1/user/317e194e-30c6-4e31-bfaa-e0b7ac565694",
+							"protocol": "https",
+							"host": [
+								"whirlpool",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"",
+								"v1",
+								"user",
+								"317e194e-30c6-4e31-bfaa-e0b7ac565694"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0NTFjODk2LWNiNmYtNDUyZC1iYzRhLTcyYzhhZDExMGYwMiIsIm5hbWUiOiJLb2JvIEthbmFlcnUiLCJlbWFpbCI6ImtvYm9AbWFpbC5jb20iLCJwaG9uZSI6IjA4OTkxMjM0NTY3OCIsImlhdCI6MTY2ODU3NzczMSwiZXhwIjoxNjY4NTgxMzMxfQ.0YVAYX5I69Zyj9xzLqFfVtCs5-YSuju-esGtprMJB7o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://whirlpool.up.railway.app//v1/chat/",
+							"protocol": "https",
+							"host": [
+								"whirlpool",
+								"up",
+								"railway",
+								"app"
+							],
+							"path": [
+								"",
+								"v1",
+								"chat",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
